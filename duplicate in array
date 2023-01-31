@@ -1,0 +1,83 @@
+problem link: https://www.codingninjas.com/codestudio/problems/duplicate-in-array_893397?leftPanelTab=0
+
+1st appraoch: approached by someone else
+int findDuplicate(vector<int> &arr) 
+{
+    // Write your code here
+    int mx = arr[0];
+    for(int i=1; i<arr.size(); i++){
+        if(mx<arr[i]) mx = arr[i];
+    }
+
+
+    int fq[mx + 1] = {0};
+
+    //if the size of fq is mx only, then the size would b n
+    //which indices would exist only till n-1, that's why we 
+    //need to maximize our array size till mx + 1, so that, we
+    //don't face any kind of problem at the time of storing our solution
+
+    for(int i=0; i<arr.size(); i++){
+        fq[arr[i]]++;
+    }
+
+    for(int i=0; i<mx+1; i++){
+        if(fq[i] == 2) return i;
+    }
+    //TC: O(n) -> where n is the size of the array
+    //SC: O(mx) -> where mx is the maximum element of the array
+	
+}
+
+
+2nd approach: Apprached by me
+int findDuplicate(vector<int> &arr) 
+{
+    // Write your code here
+    //duplicate = sum of elements - sum of indices
+    int sum_of_elements = 0;
+    int sum_of_indices = 0;
+
+
+    for(int i=0; i<arr.size(); i++){
+        sum_of_indices += i;
+        sum_of_elements += arr[i];
+    }
+	
+    return sum_of_elements - sum_of_indices;
+    //TC: O(n) || SC: O(1) because the code uses only a few variables to store the sum of elements and the sum of indices, and does not create any additional data structures.
+}
+
+
+
+Apprach - 03: Xor operation (Love babber approach)
+int findDuplicate(vector<int> &arr) 
+{
+    int duplicate = 0;
+    for(int i=0; i<arr.size(); i++){
+	duplicate = duplicate ^ arr[i];
+    }
+    
+    for(int i=1; i<arr.size(); i++){
+	duplicate = duplicate ^ i;
+    }
+    return duplicate;
+}
+
+
+
+//XOR operation: My approach
+int findDuplicate(vector<int> &arr) 
+{
+    // Write your code here
+    int duplicate = 0;
+    for(int i=0; i<arr.size(); i++){
+        duplicate = duplicate ^ arr[i];
+        if(i < arr.size()-1) duplicate = duplicate ^ (i+1);
+    }
+    return duplicate;
+	
+}
+
+
+
